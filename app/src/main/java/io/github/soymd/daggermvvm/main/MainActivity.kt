@@ -1,8 +1,9 @@
 package io.github.soymd.daggermvvm.main
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.github.soymd.daggermvvm.R
 import io.github.soymd.daggermvvm.common.ArgumentKeys
 import io.github.soymd.daggermvvm.databinding.ActivityMainBinding
@@ -10,7 +11,8 @@ import io.github.soymd.daggermvvm.di.AppViewModelProviders
 import io.github.soymd.daggermvvm.di.ViewModelFactory
 import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 

@@ -1,7 +1,12 @@
 package io.github.soymd.daggermvvm.main
 
+import android.app.Application
 import android.content.Context
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import javax.inject.Inject
 
 interface MainRepository {
@@ -26,5 +31,14 @@ class MainRepositoryImpl @Inject constructor(
 
     private companion object {
         const val COUNT_KEY = "count_key"
+    }
+}
+
+@Module
+@InstallIn(ActivityComponent::class)
+object MainRepositoryModule {
+    @Provides
+    fun provideMainRepository(application: Application): MainRepositoryImpl {
+        return MainRepositoryImpl(application.applicationContext)
     }
 }

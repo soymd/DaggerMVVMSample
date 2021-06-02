@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val mainRepository: MainRepository,
+    private val mainRepository: MainRepositoryImpl,
 ) : ViewModel() {
     val countLiveData = MutableLiveData(mainRepository.getCount().toString())
 

@@ -1,11 +1,7 @@
 package io.github.soymd.daggermvvm.di
 
-import dagger.android.AndroidInjector
-import dagger.android.DaggerApplication
-import javax.inject.Inject
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class MainApplication @Inject constructor(): DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().application(this).build()
-    }
-}
+@HiltAndroidApp
+class MainApplication :Application() {}
