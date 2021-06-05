@@ -7,23 +7,19 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
-interface MainRepository {
-    fun saveCount(count: Int)
-    fun getCount(): Int
-}
-
-class MainRepositoryImpl @Inject constructor(
+class MainRepository @Inject constructor(
     private val context: Context
-) : MainRepository {
-    override fun saveCount(count: Int) {
+) {
+    fun saveCount(count: Int) {
         getDefaultSharedPreferences(context).edit()
             .putInt(COUNT_KEY, count)
             .apply()
     }
 
-    override fun getCount(): Int {
+    fun getCount(): Int {
         return getDefaultSharedPreferences(context).getInt(
             COUNT_KEY, 0
         )
@@ -35,10 +31,15 @@ class MainRepositoryImpl @Inject constructor(
 }
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(SingletonComponent::class)//ActivityComponentだとエラー
 object MainRepositoryModule {
     @Provides
-    fun provideMainRepository(application: Application): MainRepositoryImpl {
-        return MainRepositoryImpl(application.applicationContext)
+    fun provideMainRepository(context: Context): MainRepository {
+        return MainRepository(context)
+    }
+
+    @Provides
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
     }
 }
