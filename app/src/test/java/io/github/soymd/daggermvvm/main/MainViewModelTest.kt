@@ -15,45 +15,19 @@ class MainViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var subject: MainViewModel
+    private lateinit var mockRepository: MainRepository
 
-    private lateinit var fakeRepository: MainRepositoryFake
 
     @Before
     fun setUp() {
-        fakeRepository = MainRepositoryFake()
+        mockRepository = mockk(relaxed = true)
 
-        subject = MainViewModel(fakeRepository)
-    }
-
-    @Test
-    fun `countUp 現在保存されている値に1を足してliveDataに値を代入`() {
-        //準備
-        fakeRepository.getCount_returns = 10
-
-        //実行
-        subject.countUp()
-
-        //検証
-        assertThat(subject.countLiveData.value, equalTo("11"))
-    }
-
-    @Test
-    fun `countUp 現在保存されている値に1を足して保存する`() {
-        //準備
-        fakeRepository.getCount_returns = 1
-
-        //実行
-        subject.countUp()
-
-        //検証
-        assertThat(fakeRepository.saveCount_arg, equalTo(2))
+        subject = MainViewModel(mockRepository)
     }
 
     @Test
     fun `countUp 現在保存されている値に1を足してliveDataに値を代入 mockライブラリ使用`() {
         //準備
-        val mockRepository = mockk<MainRepository>(relaxed = true)
-        subject = MainViewModel(mockRepository)
         every { mockRepository.getCount() } answers { 10 }//getCountの返却値を指定
 
         //実行
@@ -66,8 +40,6 @@ class MainViewModelTest {
     @Test
     fun `countUp 現在保存されている値に1を足して保存する mockライブラリ使用`() {
         //準備
-        val mockRepository = mockk<MainRepository>(relaxed = true)
-        subject = MainViewModel(mockRepository)
         every { mockRepository.getCount() } answers { 1 }//getCountの返却値を指定
 
         //実行
