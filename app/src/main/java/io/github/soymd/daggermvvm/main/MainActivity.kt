@@ -1,7 +1,6 @@
 package io.github.soymd.daggermvvm.main
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,13 +19,15 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private var viewModelProviders = AppViewModelProviders()
+
+    @Inject
+    lateinit var viewModelProviders: AppViewModelProviders
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = viewModelProviders.of(this,viewModelFactory).get(MainViewModel::class.java)
+        viewModel = viewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {

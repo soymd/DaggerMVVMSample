@@ -4,8 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import java.io.Serializable
+import javax.inject.Inject
 
-class AppViewModelProviders : Serializable {
+class AppViewModelProviders @Inject constructor() : Serializable {
 
     fun of(activity: FragmentActivity, factory: ViewModelProvider.Factory): ViewModelProvider {
         return ViewModelProvider(activity, factory)
