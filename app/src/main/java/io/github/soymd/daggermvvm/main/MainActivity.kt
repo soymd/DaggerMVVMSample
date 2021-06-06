@@ -7,15 +7,26 @@ import androidx.databinding.DataBindingUtil
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.soymd.daggermvvm.R
 import io.github.soymd.daggermvvm.databinding.ActivityMainBinding
+import io.github.soymd.daggermvvm.di.AppViewModelProviders
+import io.github.soymd.daggermvvm.di.ViewModelFactory
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val viewModel:MainViewModel by viewModels()
+    // todo:この方法でviewModelを生成してtestからinjectする方法が不明
+    //  private val viewModel:MainViewModel by viewModels()
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private var viewModelProviders = AppViewModelProviders()
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel = viewModelProviders.of(this,viewModelFactory).get(MainViewModel::class.java)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {
