@@ -2,47 +2,41 @@ package io.github.soymd.daggermvvm.main
 
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import io.github.soymd.daggermvvm.common.ArgumentKeys
-import io.github.soymd.daggermvvm.di.AppViewModelProviders
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import dagger.hilt.android.testing.BindValue
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
+import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.mockk
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
 import kotlinx.android.synthetic.main.activity_main.*
 import org.hamcrest.CoreMatchers.equalTo
-import org.junit.Assert.assertThat
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [28])
+@HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
+@Config(application = HiltTestApplication::class, sdk = [28])
 class MainActivityTest {
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
     private lateinit var subject: MainActivity
 
-    private lateinit var mockViewModel: MainViewModel
-
-    lateinit var mockViewModelProviders: AppViewModelProviders
-
-    lateinit var mockViewModelProvider: ViewModelProvider
-
-    lateinit var intent: Intent
+    @BindValue
+    @RelaxedMockK
+    lateinit var mockViewModel: MainViewModel
 
     @Before
     fun setUp() {
-        mockViewModel = mockk(relaxed = true)
-        mockViewModelProviders = mockk(relaxed = true)
-        mockViewModelProvider = mockk(relaxed = true)
-
-        every { mockViewModelProviders.of(any(), any()) } returns mockViewModelProvider
-        every { mockViewModelProvider.get(MainViewModel::class.java) } returns mockViewModel
-
-        intent = Intent().apply {
-            putExtra(ArgumentKeys.VIEW_MODEL_PROVIDERS.key, mockViewModelProviders)
-        }
+        MockKAnnotations.init(this, relaxUnitFun = true)
 
         every { mockViewModel.countLiveData } answers { MutableLiveData() }
     }
@@ -52,7 +46,7 @@ class MainActivityTest {
         val fakeCount = "99"
         every { mockViewModel.countLiveData.value } answers { fakeCount }
 
-        subject = Robolectric.buildActivity(MainActivity::class.java, intent)
+        subject = Robolectric.buildActivity(MainActivity::class.java, Intent())
             .create().start().resume().get()
 
         assertThat(subject.countText.text.toString(), equalTo(fakeCount))
@@ -60,7 +54,7 @@ class MainActivityTest {
 
     @Test
     fun `countUpボタンタップでviewModel_countUp()を呼び出す`() {
-        subject = Robolectric.buildActivity(MainActivity::class.java, intent)
+        subject = Robolectric.buildActivity(MainActivity::class.java, Intent())
             .create().start().resume().get()
 
         subject.plusButton.performClick()
