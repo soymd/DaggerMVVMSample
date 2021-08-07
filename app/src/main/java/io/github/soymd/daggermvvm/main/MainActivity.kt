@@ -20,7 +20,6 @@ class MainActivity : Hilt_MainActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {
             lifecycleOwner = this@MainActivity
-            viewModel = this@MainActivity.viewModel
             fizzbuzzRecyclerView.adapter = FizzBuzzAdapter(
                 this@MainActivity,
                 this@MainActivity.viewModel
