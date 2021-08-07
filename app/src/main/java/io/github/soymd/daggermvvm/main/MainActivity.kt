@@ -23,12 +23,5 @@ class MainActivity : Hilt_MainActivity() {
             viewModel = this@MainActivity.viewModel
         }
 
-        // MVVMを使わない場合の例
-        binding.minusButton.setOnClickListener {
-            val repository = MainRepository(context = applicationContext)
-            val newCount = repository.getCount() - 1
-            repository.saveCount(newCount)
-            binding.countText.text = newCount.toString()
-        }
     }
 }
