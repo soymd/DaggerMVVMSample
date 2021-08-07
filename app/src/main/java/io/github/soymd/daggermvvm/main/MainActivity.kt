@@ -21,6 +21,10 @@ class MainActivity : Hilt_MainActivity() {
         binding.apply {
             lifecycleOwner = this@MainActivity
             viewModel = this@MainActivity.viewModel
+            fizzbuzzRecyclerView.adapter = FizzBuzzAdapter(
+                this@MainActivity,
+                this@MainActivity.viewModel
+            )
         }
 
     }
