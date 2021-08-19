@@ -1,17 +1,12 @@
 package io.github.soymd.daggermvvm.main
 
 import android.content.Intent
-import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
-import kotlinx.android.synthetic.main.activity_main.*
+import io.github.soymd.daggermvvm.count.CountActivity
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -19,6 +14,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 
 @HiltAndroidTest
@@ -31,35 +27,25 @@ class MainActivityTest {
     private lateinit var subject: MainActivity
 
     @BindValue
-    @RelaxedMockK
-    lateinit var mockViewModel: MainViewModel
+    lateinit var viewModel: MainViewModel
 
     @Before
     fun setUp() {
-        MockKAnnotations.init(this, relaxUnitFun = true)
-
-        every { mockViewModel.countLiveData } answers { MutableLiveData() }
+        viewModel = MainViewModel()
     }
 
     @Test
-    fun `onCreate liveDataの値をcountTextで表示`() {
-        val fakeCount = "99"
-        every { mockViewModel.countLiveData.value } answers { fakeCount }
-
+    fun `onCreate countActivityButtonでCountActivityを呼び出し`() {
         subject = Robolectric.buildActivity(MainActivity::class.java, Intent())
             .create().start().resume().get()
 
-        assertThat(subject.countText.text.toString(), equalTo(fakeCount))
+        subject.binding.countActivityButton.performClick()
+
+        val nextIntent = shadowOf(subject).peekNextStartedActivity()
+        assertThat(
+            nextIntent.component!!.className,
+            equalTo(CountActivity::class.java.canonicalName)
+        )
+
     }
-
-    @Test
-    fun `countUpボタンタップでviewModel_countUp()を呼び出す`() {
-        subject = Robolectric.buildActivity(MainActivity::class.java, Intent())
-            .create().start().resume().get()
-
-        subject.plusButton.performClick()
-
-        verify(exactly = 1) { mockViewModel.countUp() }
-    }
-
 }

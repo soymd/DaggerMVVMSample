@@ -6,15 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel  @Inject constructor(
-    private val mainRepository: MainRepository,
-) : ViewModel() {
-    val countLiveData = MutableLiveData(mainRepository.getCount().toString())
+class MainViewModel @Inject constructor() : ViewModel() {
 
-    fun countUp() {
-        val newCount = mainRepository.getCount() + 1
-        countLiveData.value = newCount.toString()
-        mainRepository.saveCount(newCount)
+    val countActivityEvent = MutableLiveData<Unit>()
+    fun countActivityButtonTapped() {
+        countActivityEvent.value = null
     }
-
 }
