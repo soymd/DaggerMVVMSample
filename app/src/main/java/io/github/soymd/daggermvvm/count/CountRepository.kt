@@ -1,4 +1,4 @@
-package io.github.soymd.daggermvvm.main
+package io.github.soymd.daggermvvm.count
 
 import android.app.Application
 import android.content.Context
@@ -6,11 +6,10 @@ import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
-class MainRepository @Inject constructor(
+class CountRepository @Inject constructor(
     private val context: Context
 ) {
     fun saveCount(count: Int) {
@@ -32,10 +31,10 @@ class MainRepository @Inject constructor(
 
 @Module
 @InstallIn(SingletonComponent::class)//ActivityComponentだとエラー
-object MainRepositoryModule {
+object CountRepositoryModule {
     @Provides
-    fun provideMainRepository(context: Context): MainRepository {
-        return MainRepository(context)
+    fun provideCountRepository(context: Context): CountRepository {
+        return CountRepository(context)
     }
 
     @Provides
