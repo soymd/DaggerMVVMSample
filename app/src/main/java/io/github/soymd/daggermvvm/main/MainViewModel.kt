@@ -12,4 +12,9 @@ class MainViewModel @Inject constructor() : ViewModel() {
     fun countActivityButtonTapped() {
         countActivityEvent.value = null
     }
+
+    val fizzBuzzFragmentEvent = MutableLiveData<Unit>()
+    fun fizzBuzzFragmentButtonTapped() {
+        fizzBuzzFragmentEvent.value = null
+    }
 }

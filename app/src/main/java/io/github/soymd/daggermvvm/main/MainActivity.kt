@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.github.soymd.daggermvvm.R
 import io.github.soymd.daggermvvm.count.CountActivity
 import io.github.soymd.daggermvvm.databinding.ActivityMainBinding
+import io.github.soymd.daggermvvm.fizzbuzz.FizzBuzzFragment
 
 @AndroidEntryPoint(AppCompatActivity::class)
 class MainActivity : Hilt_MainActivity() {
@@ -28,10 +29,21 @@ class MainActivity : Hilt_MainActivity() {
         viewModel.countActivityEvent.observe(this, {
             this@MainActivity.callCountActivity()
         })
+        viewModel.fizzBuzzFragmentEvent.observe(this, {
+            this@MainActivity.callFizzBuzzFragment()
+        })
     }
 
     private fun callCountActivity() {
         val intent = Intent(applicationContext, CountActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun callFizzBuzzFragment() {
+        val fragment = FizzBuzzFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.mainActivityRoot, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

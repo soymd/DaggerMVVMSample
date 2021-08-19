@@ -11,18 +11,33 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainActivityRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/countActivityButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#ffff00"
             android:onClick="@{() -> viewModel.countActivityButtonTapped()}"
             android:text="count_button"
+            app:layout_constraintBottom_toTopOf="@id/fizzBuzzFragmentButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/fizzBuzzFragmentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffff00"
+            android:onClick="@{() -> viewModel.fizzBuzzFragmentButtonTapped()}"
+            android:text="fizzbuzz_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/countActivityButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
