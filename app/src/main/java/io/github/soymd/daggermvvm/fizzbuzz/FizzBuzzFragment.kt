@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.soymd.daggermvvm.databinding.FragmentFizzBuzzBinding
 
 @AndroidEntryPoint(Fragment::class)
 class FizzBuzzFragment : Hilt_FizzBuzzFragment() {
     lateinit var binding: FragmentFizzBuzzBinding
+    private val viewModel: FizzBuzzViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,6 +20,15 @@ class FizzBuzzFragment : Hilt_FizzBuzzFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFizzBuzzBinding.inflate(inflater, container, false)
+        binding.apply {
+            lifecycleOwner = this@FizzBuzzFragment
+
+            fizzbuzzRecyclerView.adapter = FizzBuzzAdapter(
+                requireContext(),
+                this@FizzBuzzFragment.viewModel
+            )
+        }
+
         return binding.root
     }
 }
