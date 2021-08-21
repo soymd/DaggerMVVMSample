@@ -6,8 +6,7 @@ import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import io.github.soymd.daggermvvm.R
-import io.github.soymd.daggermvvm.main.MainActivity
+import io.github.soymd.daggermvvm.TestActivity
 import kotlinx.android.synthetic.main.item_fizz_buzz.view.*
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -27,6 +26,7 @@ class FizzBuzzFragmentTest {
     val hiltRule = HiltAndroidRule(this)
 
     private lateinit var subject: FizzBuzzFragment
+    private lateinit var activity: TestActivity
 
     @BindValue
     lateinit var viewModel: FizzBuzzViewModel
@@ -75,11 +75,35 @@ class FizzBuzzFragmentTest {
         )
     }
 
+    @Test
+    fun closeButtonタップでfragmentを閉じる() {
+        startFragment()
+
+        assertThat(
+            activity.supportFragmentManager.fragments.count(),
+            equalTo(1)
+        )
+
+        subject.binding.fizzBuzzCloseButton.performClick()
+
+        shadowOf(getMainLooper()).idle()
+
+        assertThat(
+            activity.supportFragmentManager.fragments.count(),
+            equalTo(0)
+        )
+    }
+
     private fun startFragment() {
+        //Test用Activityを起動
+        activity = Robolectric.buildActivity(TestActivity::class.java)
+            .create().start().resume().get()
         //Fragmentを起動
-        Robolectric.buildActivity(MainActivity::class.java)
-            .create().start().resume().get().supportFragmentManager
-            .beginTransaction().add(R.id.mainActivityRoot, subject).commit()
+        activity.supportFragmentManager
+            .beginTransaction()
+            .add(subject, "")
+            .addToBackStack(null)
+            .commit()
 
         //RecyclerViewのテストをする場合は以下が必要
         shadowOf(getMainLooper()).idle()

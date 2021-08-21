@@ -22,12 +22,17 @@ class FizzBuzzFragment : Hilt_FizzBuzzFragment() {
         binding = FragmentFizzBuzzBinding.inflate(inflater, container, false)
         binding.apply {
             lifecycleOwner = this@FizzBuzzFragment
+            viewModel = this@FizzBuzzFragment.viewModel
 
             fizzbuzzRecyclerView.adapter = FizzBuzzAdapter(
                 requireContext(),
                 this@FizzBuzzFragment.viewModel
             )
         }
+
+        viewModel.closeEvent.observe(viewLifecycleOwner, {
+            parentFragmentManager.popBackStack()
+        })
 
         return binding.root
     }

@@ -1,5 +1,6 @@
 package io.github.soymd.daggermvvm.fizzbuzz
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -21,5 +22,10 @@ class FizzBuzzViewModel @Inject constructor() : ViewModel() {
                 i.toString()
             }
         }
+    }
+
+    val closeEvent = MutableLiveData<Unit>()
+    fun closeButtonTapped() {
+        closeEvent.value = null
     }
 }
