@@ -23,6 +23,10 @@ class CountActivity : Hilt_CountActivity() {
             viewModel = this@CountActivity.viewModel
         }
 
+        viewModel.closeEvent.observe(this, {
+            this.finish()
+        })
+
         // MVVMを使わない場合の例
         binding.minusButton.setOnClickListener {
             val repository = CountRepository(context = applicationContext)

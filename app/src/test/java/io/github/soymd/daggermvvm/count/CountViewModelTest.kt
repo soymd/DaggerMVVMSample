@@ -1,6 +1,7 @@
 package io.github.soymd.daggermvvm.count
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -47,5 +48,15 @@ class CountViewModelTest {
 
         //検証
         verify { mockRepository.saveCount(2) }//saveCountが引数2で実行されたかどうか検証
+    }
+
+    @Test
+    fun `closeButtonTapped emit closeEvent`() {
+        val mockObserver: Observer<Unit> = mockk(relaxed = true)
+        subject.closeEvent.observeForever(mockObserver)
+
+        subject.closeButtonTapped()
+
+        verify { mockObserver.onChanged(null) }
     }
 }

@@ -10,6 +10,7 @@ import dagger.hilt.android.testing.HiltTestApplication
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.mockk
 import io.mockk.verify
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
@@ -62,4 +63,21 @@ class CountActivityTest {
         verify(exactly = 1) { mockViewModel.countUp() }
     }
 
+    @Test
+    fun closeボタンタップでactivityを終了() {
+        val liveData = MutableLiveData<Unit>()
+        every { mockViewModel.closeEvent } returns liveData
+
+        subject = Robolectric.buildActivity(CountActivity::class.java, Intent())
+            .create().start().resume().get()
+
+        subject.binding.countCloseButton.performClick()
+
+        verify { mockViewModel.closeButtonTapped() }
+
+        //viewModel.closeButtonTapped()で発火するイベントをテストコードから強制発火
+        liveData.value = null
+
+        assertThat(subject.isFinishing, equalTo(true))
+    }
 }

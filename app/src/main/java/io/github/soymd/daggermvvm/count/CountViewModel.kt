@@ -17,4 +17,9 @@ class CountViewModel @Inject constructor(
         countLiveData.value = newCount.toString()
         countRepository.saveCount(newCount)
     }
+
+    val closeEvent = MutableLiveData<Unit>()
+    fun closeButtonTapped() {
+        closeEvent.value = null
+    }
 }
