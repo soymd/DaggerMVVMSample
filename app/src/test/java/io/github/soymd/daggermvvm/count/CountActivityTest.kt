@@ -15,7 +15,6 @@ import io.mockk.verify
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
-
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -77,6 +76,18 @@ class CountActivityTest {
 
         //viewModel.closeButtonTapped()で発火するイベントをテストコードから強制発火
         liveData.value = null
+
+        assertThat(subject.isFinishing, equalTo(true))
+    }
+
+    @Test
+    fun `closeボタンタップでactivityを終了 本物のviewModelを使用する場合`() {
+        mockViewModel = CountViewModel(mockk(relaxed = true))
+
+        subject = Robolectric.buildActivity(CountActivity::class.java, Intent())
+            .create().start().resume().get()
+
+        subject.binding.countCloseButton.performClick()
 
         assertThat(subject.isFinishing, equalTo(true))
     }
