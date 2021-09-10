@@ -10,6 +10,7 @@ import io.github.soymd.daggermvvm.R
 import io.github.soymd.daggermvvm.count.CountActivity
 import io.github.soymd.daggermvvm.databinding.ActivityMainBinding
 import io.github.soymd.daggermvvm.fizzbuzz.FizzBuzzFragment
+import io.github.soymd.daggermvvm.jetpack.JetpackComposeFragment
 
 @AndroidEntryPoint(AppCompatActivity::class)
 class MainActivity : Hilt_MainActivity() {
@@ -26,12 +27,17 @@ class MainActivity : Hilt_MainActivity() {
             viewModel = this@MainActivity.viewModel
         }
 
-        viewModel.countActivityEvent.observe(this, {
-            this@MainActivity.callCountActivity()
-        })
-        viewModel.fizzBuzzFragmentEvent.observe(this, {
-            this@MainActivity.callFizzBuzzFragment()
-        })
+        viewModel.apply {
+            countActivityEvent.observe(this@MainActivity, {
+                this@MainActivity.callCountActivity()
+            })
+            fizzBuzzFragmentEvent.observe(this@MainActivity, {
+                this@MainActivity.callFizzBuzzFragment()
+            })
+            jetpackFragmentEvent.observe(this@MainActivity, {
+                this@MainActivity.callJetpackFragment()
+            })
+        }
     }
 
     private fun callCountActivity() {
@@ -41,6 +47,14 @@ class MainActivity : Hilt_MainActivity() {
 
     private fun callFizzBuzzFragment() {
         val fragment = FizzBuzzFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.mainActivityRoot, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun callJetpackFragment() {
+        val fragment = JetpackComposeFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.mainActivityRoot, fragment)
             .addToBackStack(null)

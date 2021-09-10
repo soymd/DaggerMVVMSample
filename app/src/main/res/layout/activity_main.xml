@@ -34,10 +34,22 @@
             android:background="#ffff00"
             android:onClick="@{() -> viewModel.fizzBuzzFragmentButtonTapped()}"
             android:text="fizzbuzz_button"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/jetpackFragmentButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/countActivityButton" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/jetpackFragmentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ffff00"
+            android:onClick="@{() -> viewModel.jetpackFragmentButtonTapped()}"
+            android:text="jetpack_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fizzBuzzFragmentButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
