@@ -120,6 +120,7 @@ dependencies {
 
     // UI Tests
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$jetpack_compose_version"
+    testImplementation "androidx.compose.ui:ui-test-junit4:$jetpack_compose_version"
 
     // When using a AppCompat theme
     implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"

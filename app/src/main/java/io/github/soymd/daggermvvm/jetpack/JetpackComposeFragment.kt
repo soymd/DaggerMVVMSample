@@ -45,7 +45,7 @@ class JetpackComposeFragment : Hilt_JetpackComposeFragment() {
 }
 
 @Composable
-private fun Greeting() {
+fun Greeting() {
     Text(
         text = stringResource(R.string.greeting),
         style = MaterialTheme.typography.h5,
