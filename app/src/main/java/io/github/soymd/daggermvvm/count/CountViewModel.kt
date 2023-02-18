@@ -20,6 +20,6 @@ class CountViewModel @Inject constructor(
 
     val closeEvent = MutableLiveData<Unit>()
     fun closeButtonTapped() {
-        closeEvent.value = null
+        closeEvent.value = Unit
     }
 }

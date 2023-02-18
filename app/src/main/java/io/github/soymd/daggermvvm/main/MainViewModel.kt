@@ -10,16 +10,16 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     val countActivityEvent = MutableLiveData<Unit>()
     fun countActivityButtonTapped() {
-        countActivityEvent.value = null
+        countActivityEvent.value = Unit
     }
 
     val fizzBuzzFragmentEvent = MutableLiveData<Unit>()
     fun fizzBuzzFragmentButtonTapped() {
-        fizzBuzzFragmentEvent.value = null
+        fizzBuzzFragmentEvent.value = Unit
     }
 
     val jetpackFragmentEvent = MutableLiveData<Unit>()
     fun jetpackFragmentButtonTapped() {
-        jetpackFragmentEvent.value = null
+        jetpackFragmentEvent.value = Unit
     }
 }

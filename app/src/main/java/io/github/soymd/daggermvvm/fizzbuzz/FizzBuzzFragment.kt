@@ -17,7 +17,7 @@ class FizzBuzzFragment : Hilt_FizzBuzzFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentFizzBuzzBinding.inflate(inflater, container, false)
         binding.apply {
