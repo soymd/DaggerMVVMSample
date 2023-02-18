@@ -57,6 +57,6 @@ class CountViewModelTest {
 
         subject.closeButtonTapped()
 
-        verify { mockObserver.onChanged(null) }
+        verify { mockObserver.onChanged(Unit) }
     }
 }

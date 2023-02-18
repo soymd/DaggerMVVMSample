@@ -110,6 +110,12 @@ dependencies {
     // UI Tests
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$jetpack_compose_version"
     testImplementation "androidx.compose.ui:ui-test-junit4:$jetpack_compose_version"
+
+    // coroutines
+    def coroutines_version = "1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 }
 
 kapt {

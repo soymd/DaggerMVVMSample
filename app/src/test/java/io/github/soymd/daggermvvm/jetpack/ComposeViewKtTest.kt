@@ -9,8 +9,10 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import io.github.soymd.daggermvvm.TestActivity
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -35,13 +37,21 @@ class ComposeViewKtTest {
         hiltRule.inject()
 
         mockViewModel = mockk(relaxed = true)
+        every { mockViewModel.textFlow } returns MutableStateFlow("")
     }
 
     @Test
     fun showText() {
+        val mutableStateFlow = MutableStateFlow("fake-text1")
+        every { mockViewModel.textFlow } returns mutableStateFlow
+
         composeTestRule.setContent { ComposeView(mockViewModel) }
 
-        composeTestRule.onNodeWithText("Hello, Jetpack Compose.").assertIsDisplayed()
+        composeTestRule.onNodeWithText("fake-text1").assertIsDisplayed()
+
+        mutableStateFlow.value = "fake-text"
+
+        composeTestRule.onNodeWithText("fake-text").assertIsDisplayed()
     }
 
     @Test

@@ -6,18 +6,20 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import io.github.soymd.daggermvvm.R
 
 @Composable
 fun ComposeView(
     viewModel: ComposeViewModel
 ) {
+    val text: String by viewModel.textFlow.collectAsState()
+
     Column {
         Text(
-            text = stringResource(R.string.greeting),
+            text = text,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(Alignment.CenterHorizontally)
