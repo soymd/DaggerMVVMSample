@@ -1,19 +1,19 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
+    id 'kotlin-android-extensions'//todo deprecated in kotlin 1.8.0
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "io.github.soymd.daggermvvm"
         minSdkVersion 26
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -36,8 +36,8 @@ android {
     buildFeatures {
         dataBinding true
         compose = true
-        composeOptions.kotlinCompilerExtensionVersion = "1.0.1"
-        composeOptions.kotlinCompilerVersion = "1.5.21"
+        composeOptions.kotlinCompilerExtensionVersion = "1.3.2"
+        composeOptions.kotlinCompilerVersion = "1.7.20"
     }
     testOptions {
         unitTests {
@@ -47,87 +47,75 @@ android {
 }
 
 dependencies {
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+//1.5.1 not work https://stackoverflow.com/questions/73028977/android-material-design-sample-code-giving-missing-resources-errors
+    implementation 'com.google.android.material:material:1.6.0'
+//1.8.1 not work https://stackoverflow.com/questions/73028977/android-material-design-sample-code-giving-missing-resources-errors
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // recycler view
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
 
-    def fragment_version = "1.2.5"
+    def fragment_version = "1.5.5"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
     def lifecycle_version = "2.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
 
     // robolectric
-    testImplementation 'org.robolectric:robolectric:4.4'
+    testImplementation 'org.robolectric:robolectric:4.5.1'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
-    testImplementation "androidx.test:runner:1.3.0"
-    testImplementation "androidx.test.ext:junit-ktx:1.1.2"
+    testImplementation "androidx.test:runner:1.5.2"
+    testImplementation "androidx.test.ext:junit-ktx:1.1.5"
 
     // mockk
     testImplementation "io.mockk:mockk:1.12.0"
 
-//    def dagger_version = "2.25"
-//    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-//    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-//    implementation "com.google.dagger:dagger:$dagger_version"
-//    implementation "com.google.dagger:dagger-android:$dagger_version"
-//    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-
-    def dagger_hilt_version = "2.36"
+    def dagger_hilt_version = "2.45"
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt_version"
     testImplementation 'com.google.dagger:hilt-android-testing:2.36'
 //    testAnnotationProcessor 'com.google.dagger:hilt-compiler:2.36'//for javaなので不要
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
-    kaptTest "com.google.dagger:hilt-android-compiler:2.36"//https://stackoverflow.com/questions/65058281/java-lang-runtimeexception-hilt-classes-generated-from-hiltandroidtest-are-mis
+    kaptTest "com.google.dagger:hilt-android-compiler:$dagger_hilt_version"
+//https://stackoverflow.com/questions/65058281/java-lang-runtimeexception-hilt-classes-generated-from-hiltandroidtest-are-mis
 
     // shared preferences
-    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 
     // constraint layout
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    def jetpack_compose_version = "1.0.1"
+    def jetpack_compose_version = "1.3.3"
     implementation "androidx.compose.ui:ui:$jetpack_compose_version"
-    // Tooling support (Previews, etc.)
     implementation "androidx.compose.ui:ui-tooling:$jetpack_compose_version"
-    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation "androidx.compose.foundation:foundation:$jetpack_compose_version"
-    // Material Design
-    implementation "androidx.compose.material:material:$jetpack_compose_version"
-    // Material design icons
-    implementation "androidx.compose.material:material-icons-core:$jetpack_compose_version"
-    implementation "androidx.compose.material:material-icons-extended:$jetpack_compose_version"
-    // Integration with activities
-    implementation "androidx.activity:activity-compose:1.3.1"
-    // Integration with ViewModels
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
-    // Integration with observables
     implementation "androidx.compose.runtime:runtime-livedata:$jetpack_compose_version"
     implementation "androidx.compose.runtime:runtime-rxjava2:$jetpack_compose_version"
+
+    def jetpack_compose_material_version = "1.3.1"
+    implementation "androidx.compose.foundation:foundation:$jetpack_compose_material_version"
+    implementation "androidx.compose.material:material:$jetpack_compose_material_version"
+    implementation "androidx.compose.material:material-icons-core:$jetpack_compose_material_version"
+    implementation "androidx.compose.material:material-icons-extended:$jetpack_compose_material_version"
+
+    implementation "androidx.activity:activity-compose:1.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+
+    implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
 
     // UI Tests
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$jetpack_compose_version"
     testImplementation "androidx.compose.ui:ui-test-junit4:$jetpack_compose_version"
-
-    // When using a AppCompat theme
-    implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
 }
-//hilt {
-//    enableTransformForLocalTests = true
-//}
+
 kapt {
     correctErrorTypes true
 }

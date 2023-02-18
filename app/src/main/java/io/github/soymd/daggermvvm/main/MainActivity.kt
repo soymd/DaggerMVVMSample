@@ -28,15 +28,15 @@ class MainActivity : Hilt_MainActivity() {
         }
 
         viewModel.apply {
-            countActivityEvent.observe(this@MainActivity, {
+            countActivityEvent.observe(this@MainActivity) {
                 this@MainActivity.callCountActivity()
-            })
-            fizzBuzzFragmentEvent.observe(this@MainActivity, {
+            }
+            fizzBuzzFragmentEvent.observe(this@MainActivity) {
                 this@MainActivity.callFizzBuzzFragment()
-            })
-            jetpackFragmentEvent.observe(this@MainActivity, {
+            }
+            jetpackFragmentEvent.observe(this@MainActivity) {
                 this@MainActivity.callJetpackFragment()
-            })
+            }
         }
     }
 

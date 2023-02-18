@@ -8,6 +8,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import io.github.soymd.daggermvvm.TestActivity
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,8 +17,8 @@ import org.robolectric.annotation.Config
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-@Config(application = HiltTestApplication::class, sdk = [28])
-class GreetingTest {
+@Config(application = HiltTestApplication::class, sdk = [29])
+class ComposeViewKtTest {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
@@ -26,11 +27,13 @@ class GreetingTest {
 
     @Before
     fun setUp() {
-        composeTestRule.setContent { ComposeView() }
+        hiltRule.inject()
     }
 
     @Test
-    fun testGreeting() {
+    fun showText() {
+        composeTestRule.setContent { ComposeView() }
+
         composeTestRule.onNodeWithText("Hello, Jetpack Compose.").assertIsDisplayed()
     }
 }
