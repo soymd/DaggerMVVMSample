@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.accompanist.appcompattheme.AppCompatTheme
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.soymd.daggermvvm.databinding.FragmentJetpackComposeBinding
@@ -13,11 +14,12 @@ import io.github.soymd.daggermvvm.databinding.FragmentJetpackComposeBinding
 @AndroidEntryPoint(Fragment::class)
 class JetpackComposeFragment : Hilt_JetpackComposeFragment() {
     lateinit var binding: FragmentJetpackComposeBinding
+    private val viewModel: ComposeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentJetpackComposeBinding.inflate(inflater, container, false)
         binding.apply {
@@ -27,7 +29,7 @@ class JetpackComposeFragment : Hilt_JetpackComposeFragment() {
         val greeting: ComposeView = binding.greeting
         greeting.setContent {
             AppCompatTheme {
-                ComposeView()
+                ComposeView(viewModel)
             }
         }
 

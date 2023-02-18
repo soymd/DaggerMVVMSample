@@ -30,9 +30,9 @@ class FizzBuzzFragment : Hilt_FizzBuzzFragment() {
             )
         }
 
-        viewModel.closeEvent.observe(viewLifecycleOwner, {
+        viewModel.closeEvent.observe(viewLifecycleOwner) {
             parentFragmentManager.popBackStack()
-        })
+        }
 
         return binding.root
     }

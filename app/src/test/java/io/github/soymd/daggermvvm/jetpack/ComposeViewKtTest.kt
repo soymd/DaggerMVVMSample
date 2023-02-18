@@ -3,11 +3,14 @@ package io.github.soymd.daggermvvm.jetpack
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import io.github.soymd.daggermvvm.TestActivity
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -25,15 +28,29 @@ class ComposeViewKtTest {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<TestActivity>()
 
+    private lateinit var mockViewModel: ComposeViewModel
+
     @Before
     fun setUp() {
         hiltRule.inject()
+
+        mockViewModel = mockk(relaxed = true)
     }
 
     @Test
     fun showText() {
-        composeTestRule.setContent { ComposeView() }
+        composeTestRule.setContent { ComposeView(mockViewModel) }
 
         composeTestRule.onNodeWithText("Hello, Jetpack Compose.").assertIsDisplayed()
+    }
+
+    @Test
+    fun `tap button`() {
+        composeTestRule.setContent { ComposeView(mockViewModel) }
+        val button = composeTestRule.onNodeWithText("button")
+
+        button.performClick()
+
+        verify { mockViewModel.tapped() }
     }
 }
