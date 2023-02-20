@@ -1,5 +1,6 @@
 package io.github.soymd.daggermvvm.jetpack
 
+import junit.framework.TestCase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
 import org.hamcrest.CoreMatchers.equalTo
@@ -13,11 +14,13 @@ import org.junit.Test
 class ComposeViewModelTest {
     private lateinit var subject: ComposeViewModel
     private val testDispatcher = StandardTestDispatcher()
-    private val testScope = TestScope(testDispatcher)
+    private lateinit var testScope: TestScope
 
     @Before
     fun setUp() {
         subject = ComposeViewModel()
+
+        testScope = TestScope(testDispatcher)
 
         Dispatchers.setMain(testDispatcher)
     }
@@ -42,5 +45,18 @@ class ComposeViewModelTest {
         advanceUntilIdle()
 
         assertThat(text, equalTo("tapped"))
+    }
+
+    @Test
+    fun tappedCloseButton() = runTest {
+        var wasCalled = false
+        testScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            subject.closeEvent.collect { wasCalled = true }
+        }
+
+        subject.tappedCloseButton()
+        advanceUntilIdle()
+
+        TestCase.assertTrue(wasCalled)
     }
 }

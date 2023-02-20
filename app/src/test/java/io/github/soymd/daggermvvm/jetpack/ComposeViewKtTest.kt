@@ -63,4 +63,15 @@ class ComposeViewKtTest {
 
         verify { mockViewModel.tapped() }
     }
+
+    @Test
+    fun `tap close button`() {
+        composeTestRule.setContent { ComposeView(mockViewModel) }
+        val closeButton = composeTestRule.onNodeWithText("closeButton")
+
+        closeButton.performClick()
+
+        verify { mockViewModel.tappedCloseButton() }
+    }
+
 }

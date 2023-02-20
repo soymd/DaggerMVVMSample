@@ -30,5 +30,11 @@ fun ComposeView(
         ) {
             Text("button")
         }
+
+        Button(
+            onClick = { viewModel.tappedCloseButton() },
+        ) {
+            Text("closeButton")
+        }
     }
 }
